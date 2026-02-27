@@ -9,27 +9,60 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
- 
+    // Initialize a variable total to hold the cumulative sum
+    let total = 0;
+
+    // Iterate over the cart array using cart.forEach()
+    cart.forEach((item) => {
+        // Extract quantity/cost and convert "$10.00" to number 10.00
+        const quantity = item.quantity;
+        const priceAsNumber = parseFloat(item.cost.substring(1));
+        // Multiply cost by quantity and add to total
+        total += priceAsNumber * quantity;
+    });
+    // After processing all items, return the final total sum
+    return total;
   };
 
   const handleContinueShopping = (e) => {
-   
+    // Prevent default behavior if necessary (like form submission)
+    e.preventDefault();
+    // Call the function passed down from the parent component
+    onContinueShopping(e);
   };
 
-
-
   const handleIncrement = (item) => {
+    dispatch(updateQuantity({ 
+      name: item.name, 
+      quantity: item.quantity + 1 
+    }));
   };
 
   const handleDecrement = (item) => {
-   
+    if (item.quantity > 1) {
+      // If quantity is greater than 1, decrease it
+      dispatch(updateQuantity({ 
+        name: item.name, 
+        quantity: item.quantity - 1 
+      }));
+    } else {
+      // If quantity is 1 and decrement is clicked, remove the item
+      dispatch(removeItem(item.name));
+      //dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 })); 
+    }
   };
 
   const handleRemove = (item) => {
+    // Dispatch the removeItem action using the item's name as the payload
+    dispatch(removeItem(item.name));
   };
-
+  
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
+    // Extract the numeric value by removing the "$" and converting to a float
+    const numericPrice = parseFloat(item.cost.substring(1));
+    // Calculate the total by multiplying the numeric price by quantity
+    return numericPrice * item.quantity;
   };
 
   return (
