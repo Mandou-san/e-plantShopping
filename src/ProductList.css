@@ -58,6 +58,16 @@ body {
     align-items: center;
     justify-content: center;
 }
+.category {
+    display: flex;
+    justify-content: center;
+    padding: 6px;
+}
+.category h2 {
+    width: fit-content;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
 
 /* Product Card */
 .product-card {
@@ -70,7 +80,6 @@ body {
     border-radius: 5px;
     text-align: center;
     position: relative;
-    
     gap: 20px;
 }
 
